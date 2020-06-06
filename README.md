@@ -10,10 +10,9 @@ Make sure you have installed all of the following prerequisites on your developm
 ## Application 1 : httpd-app
 
 Here we have created a two yaml files to deploy httpd for deployment and service respectively.
-
-Deployment file : httpd-basic-deployment.yml
+* Deployment file : httpd-basic-deployment.yml
     -   It will run a single container within a pod using a docker image "httpd" and it will listen on port 80
-Service file : httpd-basic-service.yml
+* Service file : httpd-basic-service.yml
     -   This file is for service that expose the port externally so that users will be able to access it.
 
 Commands : 
