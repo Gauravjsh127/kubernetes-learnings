@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-apache-deployment
+  name: httpd-app-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-apache
+      app: httpd-app
   template:
     metadata:
       labels:
-        app: my-apache
+        app: httpd-app
     spec:
       containers:
-      - name: my-apache-container1
+      - name: httpd-app-container1
         image: httpd
         ports:
         - containerPort: 80
