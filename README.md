@@ -32,3 +32,5 @@ Backend - Flask
 Frontend - vue js
 
 Sample app to explore kubernetes
+
+For more deatils reads it README.

@@ -1,31 +1,21 @@
 # Flask-vue-postgres project on kubernetes
+Sample app to explore kubernetes. Its techstack is :
+* Database - postgres
+* Backend - Flask
+* Frontend - vue js
 
-Database - postgres
-Backend - Flask
-Frontend - vue js
-
-Sample app to explore kubernetes
 
 ### Setup and test on local system using docker-compose
-
-Build the images and spin up the containers:
-
+Build the images and spin up the containers and also run the migrations and seed the database:
 ```sh
 $ docker-compose up -d --build
-```
-
-Run the migrations and seed the database:
-
-```sh
-$ docker-compose exec backend python manage.py recreate_db
+$ docker-compose exec backend python manage.py recreate_db 
 $ docker-compose exec backend python manage.py seed_db
 ```
-
 Test it out at:
-
-1. [http://localhost:8080/](http://localhost:8080/)
-1. [http://localhost:5001/books/ping](http://localhost:5001/books/ping)
-1. [http://localhost:5001/books](http://localhost:5001/books)
+* [http://localhost:8080/](http://localhost:8080/)
+* [http://localhost:5001/books/ping](http://localhost:5001/books/ping)
+* [http://localhost:5001/books](http://localhost:5001/books)
 
 ### Kubernetes
 
@@ -46,13 +36,13 @@ $ minikube dashboard
 
 #### Volume
 
-Create the volume:
+A persistent volume (PV) is a cluster-wide resource that you can use to store data in a way that it persists beyond the lifetime of a pod.Create the persistent volume:
 
 ```sh
 $ kubectl apply -f ./kubernetes/persistent-volume.yml
 ```
 
-Create the volume claim:
+In order to use a PV you need to claim it first, using a persistent volume claim (PVC). The PVC requests a PV with your desired specification (size, speed, etc.) from Kubernetes and binds it then to a pod where you can mount it as a volume.Create the PV claim:
 
 ```sh
 $ kubectl apply -f ./kubernetes/persistent-volume-claim.yml
@@ -60,13 +50,13 @@ $ kubectl apply -f ./kubernetes/persistent-volume-claim.yml
 
 #### Secrets
 
-Create the secret object:
+Create the secret object like postgres credentials:
 
 ```sh
 $ kubectl apply -f ./kubernetes/secret.yml
 ```
 
-#### Postgres
+#### Postgres database setuo on kubernetes
 
 Create deployment:
 
@@ -87,23 +77,18 @@ $ kubectl get pods
 $ kubectl exec postgres-<POD_IDENTIFIER> --stdin --tty -- createdb -U postgres books
 ```
 
-#### Flask
+#### Backend deployment on kubernetes
 
-Build and push the image to Docker Hub:
+Build the docker image locally. Optionally you can also push image to docker hub and pull from their:
 
 ```sh
-$ docker build -t mjhea0/flask-kubernetes ./services/server
-$ docker push mjhea0/flask-kubernetes
+$ docker build -t backend ./services/backend
 ```
-
-> Make sure to replace `mjhea0` with your Docker Hub namespace in the above commands as well as in *kubernetes/flask-deployment.yml*
-
 Create the deployment:
 
 ```sh
 $ kubectl create -f ./kubernetes/flask-deployment.yml
 ```
-
 Create the service:
 
 ```sh
