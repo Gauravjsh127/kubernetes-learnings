@@ -24,3 +24,11 @@ kubectl apply -f httpd-basic-service.yml
 Get the port number for the app by the command : 
 Fetch the minikube ip by the command(minikube ip) 
 Visit the URL : minikubeIp:portnumber
+
+## Application 2 : flask-vue-app
+
+Database - postgres
+Backend - Flask
+Frontend - vue js
+
+Sample app to explore kubernetes
